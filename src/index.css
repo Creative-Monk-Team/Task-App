@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    background-color: theme('colors.background.app');
+    color: theme('colors.text.primary');
+  }
+}
+
+@layer components {
+  /* Button Components */
+  .btn-primary {
+    @apply bg-primary-500 text-text-on-primary hover:bg-primary-600 px-4 py-2 rounded-md font-semibold text-sm transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-primary-100 text-primary-700 hover:bg-primary-200 px-4 py-2 rounded-md font-semibold text-sm transition-colors;
+  }
+  
+  .btn-ghost {
+    @apply bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 px-4 py-2 rounded-md font-semibold text-sm transition-colors;
+  }
+  
+  /* Input Components */
+  .input-base {
+    @apply bg-background-component border border-border-interactive rounded-md px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 placeholder:text-neutral-400 transition-colors;
+  }
+  
+  /* Card Components */
+  .card-base {
+    @apply bg-background-component rounded-lg p-6 shadow-sm;
+  }
+  
+  /* Modal Components */
+  .modal-base {
+    @apply bg-background-component rounded-xl shadow-2xl;
+  }
+  
+  /* Badge Components */
+  .badge-base {
+    @apply rounded-full px-2 py-0.5 text-xs font-semibold;
+  }
+  
+  /* Status Badges */
+  .badge-success {
+    @apply badge-base bg-status-success-background text-status-success-text;
+  }
+  
+  .badge-warning {
+    @apply badge-base bg-status-warning-background text-status-warning-text;
+  }
+  
+  .badge-error {
+    @apply badge-base bg-status-error-background text-status-error-text;
+  }
+  
+  .badge-info {
+    @apply badge-base bg-status-info-background text-status-info-text;
+  }
+  
+  .badge-client-review {
+    @apply badge-base bg-status-client-review-background text-status-client-review-text;
+  }
+}
