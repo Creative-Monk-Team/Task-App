@@ -1,26 +1,21 @@
 import React, { useState } from 'react';
-import {
-  XIcon,
-  PlusIcon,
-  EditIcon,
-  TrashIcon,
+import { 
+  XIcon, 
+  PlusIcon, 
+  EditIcon, 
+  TrashIcon, 
   FolderIcon,
-  MoreHorizontalIcon,
+  MoreHorizontalIcon
 } from 'lucide-react';
-import { useApp } from '../../contexts/AppContext';
-import { CreateSpaceModal } from './CreateSpaceModal';
+import { useApp } from '../../contexts/AppContext.jsx';
+import { CreateSpaceModal } from './CreateSpaceModal.jsx';
 import clsx from 'clsx';
 
 export const SpaceManagementModal = ({ onClose }) => {
   const { spaces, updateSpace, deleteSpace } = useApp();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingSpace, setEditingSpace] = useState(null);
-  const [editForm, setEditForm] = useState({
-    name: '',
-    description: '',
-    color: '',
-    icon: '',
-  });
+  const [editForm, setEditForm] = useState({ name: '', description: '', color: '', icon: '' });
 
   const handleEditSpace = (space) => {
     setEditingSpace(space);
@@ -28,7 +23,7 @@ export const SpaceManagementModal = ({ onClose }) => {
       name: space.name,
       description: space.description || '',
       color: space.color,
-      icon: space.icon,
+      icon: space.icon
     });
   };
 
@@ -40,7 +35,7 @@ export const SpaceManagementModal = ({ onClose }) => {
         name: editForm.name,
         description: editForm.description || null,
         color: editForm.color,
-        icon: editForm.icon,
+        icon: editForm.icon
       });
       setEditingSpace(null);
     } catch (error) {
@@ -50,10 +45,9 @@ export const SpaceManagementModal = ({ onClose }) => {
   };
 
   const handleDeleteSpace = async (space) => {
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete "${space.name}"? This will also delete all folders and projects within this space.`
-    );
-    if (!confirmDelete) return;
+    if (!window.confirm(`Are you sure you want to delete "${space.name}"? This will also delete all folders and projects within this space.`)) {
+      return;
+    }
 
     try {
       await deleteSpace(space.id);
@@ -64,16 +58,8 @@ export const SpaceManagementModal = ({ onClose }) => {
   };
 
   const colorOptions = [
-    '#3B82F6',
-    '#10B981',
-    '#8B5CF6',
-    '#EC4899',
-    '#F59E0B',
-    '#EF4444',
-    '#6366F1',
-    '#14B8A6',
-    '#EAB308',
-    '#6B7280',
+    '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#F59E0B',
+    '#EF4444', '#6366F1', '#14B8A6', '#EAB308', '#6B7280'
   ];
 
   return (
@@ -122,14 +108,13 @@ export const SpaceManagementModal = ({ onClose }) => {
                 {spaces.map((space) => (
                   <div key={space.id} className="border border-gray-200 rounded-lg p-4">
                     {editingSpace?.id === space.id ? (
+                      /* Edit Mode */
                       <div className="space-y-4">
                         <div>
                           <input
                             type="text"
                             value={editForm.name}
-                            onChange={(e) =>
-                              setEditForm((prev) => ({ ...prev, name: e.target.value }))
-                            }
+                            onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="Space name..."
                           />
@@ -137,12 +122,7 @@ export const SpaceManagementModal = ({ onClose }) => {
                         <div>
                           <textarea
                             value={editForm.description}
-                            onChange={(e) =>
-                              setEditForm((prev) => ({
-                                ...prev,
-                                description: e.target.value,
-                              }))
-                            }
+                            onChange={(e) => setEditForm(prev => ({ ...prev, description: e.target.value }))}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                             rows={2}
                             placeholder="Description..."
@@ -154,14 +134,10 @@ export const SpaceManagementModal = ({ onClose }) => {
                               <button
                                 key={color}
                                 type="button"
-                                onClick={() =>
-                                  setEditForm((prev) => ({ ...prev, color }))
-                                }
+                                onClick={() => setEditForm(prev => ({ ...prev, color }))}
                                 className={clsx(
                                   'w-6 h-6 rounded border-2',
-                                  editForm.color === color
-                                    ? 'border-gray-400'
-                                    : 'border-gray-200'
+                                  editForm.color === color ? 'border-gray-400' : 'border-gray-200'
                                 )}
                                 style={{ backgroundColor: color }}
                               />
@@ -184,9 +160,10 @@ export const SpaceManagementModal = ({ onClose }) => {
                         </div>
                       </div>
                     ) : (
+                      /* View Mode */
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                          <div
+                          <div 
                             className="w-10 h-10 rounded-lg flex items-center justify-center"
                             style={{ backgroundColor: space.color }}
                           >
@@ -232,7 +209,9 @@ export const SpaceManagementModal = ({ onClose }) => {
       {showCreateModal && (
         <CreateSpaceModal
           onClose={() => setShowCreateModal(false)}
-          onSpaceCreated={() => setShowCreateModal(false)}
+          onSpaceCreated={() => {
+            setShowCreateModal(false);
+          }}
         />
       )}
     </>

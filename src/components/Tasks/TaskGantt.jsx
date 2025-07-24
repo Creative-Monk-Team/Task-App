@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 import { CalendarIcon, ZoomInIcon, ZoomOutIcon } from 'lucide-react';
-import { Task } from '../../types/tasks';
 import clsx from 'clsx';
 
-interface TaskGanttProps {
-  tasks: (Task & {
-    list?: any;
-    folder?: any;
-    space?: any;
-  })[];
-}
-
-export const TaskGantt: React.FC<TaskGanttProps> = ({ tasks }) => {
-  const [timeScale, setTimeScale] = useState<'days' | 'weeks' | 'months'>('weeks');
+export const TaskGantt = ({ tasks }) => {
+  const [timeScale, setTimeScale] = useState('weeks');
   const [startDate, setStartDate] = useState(() => {
     const today = new Date();
     today.setDate(today.getDate() - 30); // Start 30 days ago
@@ -58,7 +49,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ tasks }) => {
     return headers;
   };
 
-  const getTaskPosition = (task: Task) => {
+  const getTaskPosition = (task) => {
     const taskStart = task.startDate || task.dueDate;
     const taskEnd = task.dueDate || task.startDate;
     
@@ -77,7 +68,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ tasks }) => {
     };
   };
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityColor = (priority) => {
     switch (priority) {
       case 'p1':
         return 'bg-red-500';
@@ -92,7 +83,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ tasks }) => {
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status) => {
     switch (status) {
       case 'complete':
         return 'bg-green-600';
@@ -124,7 +115,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ tasks }) => {
         <div className="flex items-center space-x-2">
           {/* Time Scale Toggle */}
           <div className="flex items-center bg-gray-100 rounded-lg p-1">
-            {(['days', 'weeks', 'months'] as const).map((scale) => (
+            {['days', 'weeks', 'months'].map((scale) => (
               <button
                 key={scale}
                 onClick={() => setTimeScale(scale)}

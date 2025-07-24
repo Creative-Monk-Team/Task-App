@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from 'lucide-react';
-import { Task } from '../../types/tasks';
 import { TaskDetailModal } from './TaskDetailModal';
 import clsx from 'clsx';
 
-interface TaskCalendarProps {
-  tasks: (Task & {
-    list?: any;
-    folder?: any;
-    space?: any;
-  })[];
-}
-
-export const TaskCalendar: React.FC<TaskCalendarProps> = ({ tasks }) => {
+export const TaskCalendar = ({ tasks }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const today = new Date();
   const currentMonth = currentDate.getMonth();
@@ -55,7 +46,7 @@ export const TaskCalendar: React.FC<TaskCalendarProps> = ({ tasks }) => {
     });
   }
 
-  const getTasksForDate = (date: Date) => {
+  const getTasksForDate = (date) => {
     return tasks.filter(task => {
       if (!task.dueDate) return false;
       const taskDate = new Date(task.dueDate);
@@ -67,7 +58,7 @@ export const TaskCalendar: React.FC<TaskCalendarProps> = ({ tasks }) => {
     });
   };
 
-  const navigateMonth = (direction: 'prev' | 'next') => {
+  const navigateMonth = (direction) => {
     setCurrentDate(prev => {
       const newDate = new Date(prev);
       if (direction === 'prev') {
@@ -79,7 +70,7 @@ export const TaskCalendar: React.FC<TaskCalendarProps> = ({ tasks }) => {
     });
   };
 
-  const isToday = (date: Date) => {
+  const isToday = (date) => {
     return (
       date.getDate() === today.getDate() &&
       date.getMonth() === today.getMonth() &&
@@ -87,7 +78,7 @@ export const TaskCalendar: React.FC<TaskCalendarProps> = ({ tasks }) => {
     );
   };
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityColor = (priority) => {
     switch (priority) {
       case 'p1':
         return 'bg-red-500';

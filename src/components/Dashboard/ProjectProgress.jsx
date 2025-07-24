@@ -1,5 +1,9 @@
 import React from 'react';
-import { CalendarIcon, UsersIcon, DollarSignIcon } from 'lucide-react';
+import { 
+  CalendarIcon, 
+  UsersIcon, 
+  DollarSignIcon 
+} from 'lucide-react';
 import clsx from 'clsx';
 
 const projects = [
@@ -49,8 +53,8 @@ const projects = [
   }
 ];
 
-export const ProjectProgress: React.FC = () => {
-  const formatCurrency = (amount: number) => {
+export const ProjectProgress = () => {
+  const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -58,7 +62,7 @@ export const ProjectProgress: React.FC = () => {
     }).format(amount);
   };
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -66,7 +70,7 @@ export const ProjectProgress: React.FC = () => {
     });
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status) => {
     switch (status) {
       case 'ahead':
         return 'bg-green-100 text-green-800';
@@ -81,7 +85,7 @@ export const ProjectProgress: React.FC = () => {
     }
   };
 
-  const getStatusText = (status: string) => {
+  const getStatusText = (status) => {
     switch (status) {
       case 'ahead':
         return 'Ahead of Schedule';

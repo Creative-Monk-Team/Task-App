@@ -1,7 +1,7 @@
 import React from 'react';
-import {
-  CalendarIcon,
-  UsersIcon,
+import { 
+  CalendarIcon, 
+  UsersIcon, 
   DollarSignIcon,
   MoreHorizontalIcon
 } from 'lucide-react';
@@ -26,19 +26,19 @@ export const ProjectList = ({ projects, onProjectClick }) => {
   };
 
   const getStatusText = (status) => {
-    return status.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+    return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
-      minimumFractionDigits: 0
+      minimumFractionDigits: 0,
     }).format(amount);
   };
 
   const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('en-US', {
+    return date.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric'
@@ -81,23 +81,25 @@ export const ProjectList = ({ projects, onProjectClick }) => {
             {projects.map((project) => {
               const progress = Math.floor(Math.random() * 100);
               const spent = project.budget ? Math.floor(project.budget * (progress / 100)) : 0;
-
+              
               return (
-                <tr
-                  key={project.id}
+                <tr 
+                  key={project.id} 
                   className="hover:bg-gray-50 cursor-pointer"
                   onClick={() => onProjectClick?.(project)}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       {project.space && (
-                        <div
+                        <div 
                           className="w-3 h-3 rounded-full mr-3"
                           style={{ backgroundColor: project.space.color }}
                         />
                       )}
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{project.name}</div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {project.name}
+                        </div>
                         {project.description && (
                           <div className="text-sm text-gray-500 truncate max-w-xs">
                             {project.description}
@@ -106,22 +108,17 @@ export const ProjectList = ({ projects, onProjectClick }) => {
                       </div>
                     </div>
                   </td>
-
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {project.folder?.clientName || 'Internal'}
                   </td>
-
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={clsx(
-                        'inline-flex px-2 py-1 text-xs font-medium rounded-full',
-                        getStatusColor(project.status)
-                      )}
-                    >
+                    <span className={clsx(
+                      'inline-flex px-2 py-1 text-xs font-medium rounded-full',
+                      getStatusColor(project.status)
+                    )}>
                       {getStatusText(project.status)}
                     </span>
                   </td>
-
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="w-16 bg-gray-200 rounded-full h-2 mr-3">
@@ -133,7 +130,6 @@ export const ProjectList = ({ projects, onProjectClick }) => {
                       <span className="text-sm text-gray-900">{progress}%</span>
                     </div>
                   </td>
-
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {project.budget ? (
                       <div>
@@ -146,11 +142,9 @@ export const ProjectList = ({ projects, onProjectClick }) => {
                       '-'
                     )}
                   </td>
-
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {project.dueDate ? formatDate(project.dueDate) : '-'}
                   </td>
-
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex -space-x-1">
                       {project.assignedUsers.slice(0, 3).map((userId, index) => (
@@ -158,7 +152,9 @@ export const ProjectList = ({ projects, onProjectClick }) => {
                           key={index}
                           className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center border-2 border-white"
                         >
-                          <span className="text-white text-xs font-medium">{userId}</span>
+                          <span className="text-white text-xs font-medium">
+                            {userId}
+                          </span>
                         </div>
                       ))}
                       {project.assignedUsers.length > 3 && (
@@ -170,7 +166,6 @@ export const ProjectList = ({ projects, onProjectClick }) => {
                       )}
                     </div>
                   </td>
-
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button className="text-gray-400 hover:text-gray-600">
                       <MoreHorizontalIcon className="w-5 h-5" />

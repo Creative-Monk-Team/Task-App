@@ -9,19 +9,6 @@ import {
 } from 'lucide-react';
 import clsx from 'clsx';
 
-interface DashboardWidgetProps {
-  title: string;
-  value: string | number;
-  subtitle?: string;
-  trend?: {
-    value: number;
-    isPositive: boolean;
-  };
-  icon: 'trending' | 'clock' | 'dollar' | 'users' | 'check' | 'alert';
-  size?: 'small' | 'medium' | 'large';
-  className?: string;
-}
-
 const iconMap = {
   trending: TrendingUpIcon,
   clock: ClockIcon,
@@ -40,7 +27,7 @@ const iconColors = {
   alert: 'text-status-error-600',
 };
 
-export const DashboardWidget: React.FC<DashboardWidgetProps> = ({
+export const DashboardWidget = ({
   title,
   value,
   subtitle,

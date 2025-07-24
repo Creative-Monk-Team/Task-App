@@ -1,15 +1,8 @@
 import React from 'react';
 import { XIcon, CalendarIcon, UserIcon, TagIcon } from 'lucide-react';
-import { TaskFilter, TaskStatus, TaskPriority } from '../../types/tasks';
 import clsx from 'clsx';
 
-interface TaskFiltersProps {
-  filters: TaskFilter;
-  onFiltersChange: (filters: TaskFilter) => void;
-  onClose: () => void;
-}
-
-const statusOptions: { value: TaskStatus; label: string; color: string }[] = [
+const statusOptions = [
   { value: 'todo', label: 'To Do', color: 'bg-gray-100 text-gray-800' },
   { value: 'in_progress', label: 'In Progress', color: 'bg-blue-100 text-blue-800' },
   { value: 'internal_review', label: 'Internal Review', color: 'bg-orange-100 text-orange-800' },
@@ -20,7 +13,7 @@ const statusOptions: { value: TaskStatus; label: string; color: string }[] = [
   { value: 'complete', label: 'Complete', color: 'bg-green-200 text-green-800' },
 ];
 
-const priorityOptions: { value: TaskPriority; label: string; color: string }[] = [
+const priorityOptions = [
   { value: 'p1', label: 'P1 - Critical', color: 'bg-red-100 text-red-800' },
   { value: 'p2', label: 'P2 - High', color: 'bg-orange-100 text-orange-800' },
   { value: 'p3', label: 'P3 - Medium', color: 'bg-yellow-100 text-yellow-800' },
@@ -36,20 +29,16 @@ const assigneeOptions = [
   { id: '5', name: 'Lisa Park', avatar: 'LP' },
 ];
 
-export const TaskFilters: React.FC<TaskFiltersProps> = ({
-  filters,
-  onFiltersChange,
-  onClose
-}) => {
-  const updateFilter = (key: keyof TaskFilter, value: any) => {
+export const TaskFilters = ({ filters, onFiltersChange, onClose }) => {
+  const updateFilter = (key, value) => {
     onFiltersChange({
       ...filters,
       [key]: value
     });
   };
 
-  const toggleArrayFilter = (key: keyof TaskFilter, value: any) => {
-    const currentArray = (filters[key] as any[]) || [];
+  const toggleArrayFilter = (key, value) => {
+    const currentArray = filters[key] || [];
     const newArray = currentArray.includes(value)
       ? currentArray.filter(item => item !== value)
       : [...currentArray, value];
@@ -62,7 +51,7 @@ export const TaskFilters: React.FC<TaskFiltersProps> = ({
   };
 
   const hasActiveFilters = Object.keys(filters).some(key => {
-    const value = filters[key as keyof TaskFilter];
+    const value = filters[key];
     return Array.isArray(value) ? value.length > 0 : value !== undefined;
   });
 

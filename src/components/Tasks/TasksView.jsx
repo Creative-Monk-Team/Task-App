@@ -1,30 +1,21 @@
 import React, { useState, useMemo } from 'react';
-import {
-  PlusIcon,
-  FilterIcon,
-  ColumnsIcon as ViewColumnsIcon,
-  CalendarIcon,
-  BarChart3Icon,
-  SearchIcon,
-  SortAscIcon,
-} from 'lucide-react';
-import { TaskList } from './TaskList';
-import { TaskBoard } from './TaskBoard';
-import { TaskCalendar } from './TaskCalendar';
-import { TaskGantt } from './TaskGantt';
-import { TaskFilters } from './TaskFilters';
-import { CreateTaskModal } from './CreateTaskModal';
-import { useApp } from '../../contexts/AppContext';
+import { PlusIcon, FilterIcon, ColumnsIcon as ViewColumnsIcon, CalendarIcon, BarChart3Icon, SearchIcon, SortAscIcon } from 'lucide-react';
+import { TaskList } from './TaskList.jsx';
+import { TaskBoard } from './TaskBoard.jsx';
+import { TaskCalendar } from './TaskCalendar.jsx';
+import { TaskGantt } from './TaskGantt.jsx';
+import { TaskFilters } from './TaskFilters.jsx';
+import { CreateTaskModal } from './CreateTaskModal.jsx';
+import { useApp } from '../../contexts/AppContext.jsx';
 import clsx from 'clsx';
 
 export const TasksView = () => {
   const { tasks, lists, folders, spaces, tasksLoading } = useApp();
-
   const [currentView, setCurrentView] = useState('list');
   const [showFilters, setShowFilters] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
+  
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState({
     field: 'due_date',
@@ -38,16 +29,19 @@ export const TasksView = () => {
     { type: 'gantt', icon: BarChart3Icon, label: 'Gantt' },
   ];
 
+  // Filter and sort tasks
   const filteredTasks = useMemo(() => {
     let filtered = [...tasks];
 
+    // Apply search
     if (searchQuery) {
-      filtered = filtered.filter(task =>
+      filtered = filtered.filter(task => 
         task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         task.description?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
+    // Apply filters
     if (filters.status?.length) {
       filtered = filtered.filter(task => filters.status.includes(task.status));
     }
@@ -57,22 +51,24 @@ export const TasksView = () => {
     }
 
     if (filters.dueDate?.start) {
-      filtered = filtered.filter(task =>
+      filtered = filtered.filter(task => 
         task.due_date && new Date(task.due_date) >= filters.dueDate.start
       );
     }
+
     if (filters.dueDate?.end) {
-      filtered = filtered.filter(task =>
+      filtered = filtered.filter(task => 
         task.due_date && new Date(task.due_date) <= filters.dueDate.end
       );
     }
 
     if (filters.tags?.length) {
-      filtered = filtered.filter(task =>
+      filtered = filtered.filter(task => 
         task.tags.some(tag => filters.tags.includes(tag))
       );
     }
 
+    // Apply sorting
     filtered.sort((a, b) => {
       let aValue = a[sort.field];
       let bValue = b[sort.field];
@@ -113,6 +109,7 @@ export const TasksView = () => {
 
   const renderCurrentView = () => {
     const tasksWithContext = getTasksWithContext();
+
     switch (currentView) {
       case 'list':
         return <TaskList tasks={tasksWithContext} />;
@@ -137,7 +134,7 @@ export const TasksView = () => {
             Manage and track all project tasks and deliverables
           </p>
         </div>
-        <button
+        <button 
           onClick={() => setShowCreateModal(true)}
           className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
@@ -149,7 +146,7 @@ export const TasksView = () => {
       {/* Controls */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          {/* View toggle */}
+          {/* View Toggle */}
           <div className="flex items-center bg-gray-100 rounded-lg p-1">
             {viewOptions.map((option) => {
               const Icon = option.icon;
@@ -171,7 +168,7 @@ export const TasksView = () => {
             })}
           </div>
 
-          {/* Search input */}
+          {/* Search */}
           <div className="relative">
             <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <input
@@ -220,7 +217,9 @@ export const TasksView = () => {
           {filteredTasks.length} task{filteredTasks.length !== 1 ? 's' : ''}
           {searchQuery && ` matching "${searchQuery}"`}
         </span>
-        <span>{filteredTasks.filter(t => t.status === 'complete').length} completed</span>
+        <span>
+          {filteredTasks.filter(t => t.status === 'complete').length} completed
+        </span>
       </div>
 
       {/* Tasks Display */}
@@ -244,10 +243,11 @@ export const TasksView = () => {
           <h3 className="text-lg font-medium text-gray-900 mb-2">No tasks found</h3>
           <p className="text-gray-600 mb-4">
             {searchQuery || Object.keys(filters).length > 0
-              ? 'Try adjusting your search or filters'
-              : 'Get started by creating your first task'}
+              ? "Try adjusting your search or filters"
+              : "Get started by creating your first task"
+            }
           </p>
-          <button
+          <button 
             onClick={() => setShowCreateModal(true)}
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
@@ -257,11 +257,13 @@ export const TasksView = () => {
         </div>
       )}
 
-      {/* Create Modal */}
+      {/* Create Task Modal */}
       {showCreateModal && (
         <CreateTaskModal
           onClose={() => setShowCreateModal(false)}
-          onTaskCreated={() => setShowCreateModal(false)}
+          onTaskCreated={() => {
+            setShowCreateModal(false);
+          }}
         />
       )}
     </div>

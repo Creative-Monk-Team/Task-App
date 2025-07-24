@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext.jsx';
 import { EyeIcon, EyeOffIcon, LogIn, AlertCircle } from 'lucide-react';
 
-export const LoginForm: React.FC = () => {
+export const LoginForm = () => {
   const [email, setEmail] = useState('admin@agency.com');
   const [password, setPassword] = useState('password');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
   const { login, isLoading } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     
@@ -17,7 +17,7 @@ export const LoginForm: React.FC = () => {
       await login(email, password);
     } catch (error) {
       console.error('Authentication failed:', error);
-      if (error instanceof Error) {
+      if (error) {
         if (error.message.includes('Invalid login credentials')) {
           setError('Invalid email or password. Please check your credentials.');
         } else {

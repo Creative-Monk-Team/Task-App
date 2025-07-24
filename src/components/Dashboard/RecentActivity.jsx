@@ -65,7 +65,7 @@ const activities = [
   }
 ];
 
-export const RecentActivity: React.FC = () => {
+export const RecentActivity = () => {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>

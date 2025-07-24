@@ -11,23 +11,12 @@ import {
   PlayIcon
 } from 'lucide-react';
 import { TaskDetailModal } from './TaskDetailModal';
-import { Database } from '../../lib/supabase';
 import clsx from 'clsx';
 
-type Task = Database['public']['Tables']['tasks']['Row'];
+export const TaskList = ({ tasks }) => {
+  const [selectedTask, setSelectedTask] = useState(null);
 
-interface TaskListProps {
-  tasks: (Task & {
-    list?: any;
-    folder?: any;
-    space?: any;
-  })[];
-}
-
-export const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
-  const [selectedTask, setSelectedTask] = useState<any>(null);
-
-  const getPriorityColor = (priority: string) => {
+  const getPriorityColor = (priority) => {
     switch (priority) {
       case 'p1':
         return 'bg-red-100 text-red-800';
@@ -42,7 +31,7 @@ export const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status) => {
     switch (status) {
       case 'complete':
         return 'bg-green-100 text-green-800';
@@ -59,11 +48,11 @@ export const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
     }
   };
 
-  const getStatusText = (status: string) => {
+  const getStatusText = (status) => {
     return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date) => {
     const now = new Date();
     const taskDate = new Date(date);
     const diffTime = taskDate.getTime() - now.getTime();
@@ -82,7 +71,7 @@ export const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
     });
   };
 
-  const isOverdue = (dueDate: string) => {
+  const isOverdue = (dueDate) => {
     return new Date(dueDate) < new Date();
   };
 

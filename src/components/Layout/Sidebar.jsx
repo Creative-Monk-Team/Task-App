@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   HomeIcon,
   BriefcaseIcon,
@@ -9,11 +9,11 @@ import {
   CogIcon,
   FolderIcon,
   PlusIcon,
-  SettingsIcon,
+  SettingsIcon
 } from 'lucide-react';
-import { useApp } from '../../contexts/AppContext';
-import { useAuth } from '../../contexts/AuthContext';
-import { SpaceManagementModal } from '../Spaces/SpaceManagementModal';
+import { useApp } from '../../contexts/AppContext.jsx';
+import { useAuth } from '../../contexts/AuthContext.jsx';
+import { SpaceManagementModal } from '../Spaces/SpaceManagementModal.jsx';
 import clsx from 'clsx';
 
 const navigation = [
@@ -22,13 +22,13 @@ const navigation = [
   { name: 'Tasks', icon: CheckSquareIcon, view: 'tasks' },
   { name: 'Time Tracking', icon: ClockIcon, view: 'time' },
   { name: 'Reports', icon: ChartBarIcon, view: 'reports' },
-  { name: 'Clients', icon: UsersIcon, view: 'clients' },
+  { name: 'Clients', icon: UsersIcon, view: 'clients' }
 ];
 
 export const Sidebar = () => {
-  const { currentView, setCurrentView, spaces, activeSpace, setActiveSpace } = useApp();
+  const { currentView, setCurrentView, spaces, folders, activeSpace, setActiveSpace } = useApp();
   const { user } = useAuth();
-  const [showSpaceManagement, setShowSpaceManagement] = useState(false);
+  const [showSpaceManagement, setShowSpaceManagement] = React.useState(false);
 
   return (
     <>
@@ -104,6 +104,9 @@ export const Sidebar = () => {
                 />
                 <FolderIcon className="w-4 h-4 mr-2" />
                 <span className="truncate">{space.name}</span>
+                <span className="ml-auto text-xs text-gray-400">
+                  {folders.filter(f => f.space_id === space.id).length}
+                </span>
               </button>
             ))}
             {spaces.length === 0 && (
@@ -118,28 +121,21 @@ export const Sidebar = () => {
           </div>
         </div>
 
-        {/* User Info */}
+        {/* User info */}
         <div className="px-4 py-4 border-t border-neutral-700">
           <div className="flex items-center">
             <div className="w-8 h-8 bg-neutral-600 rounded-full flex items-center justify-center">
               <span className="text-sm font-medium">
-                {user?.name?.charAt(0) || 'U'}
+                {user?.email?.charAt(0).toUpperCase() || 'U'}
               </span>
             </div>
             <div className="ml-3 flex-1 min-w-0">
               <p className="text-sm font-medium text-white truncate">
-                {user?.name || 'User'}
+                {user?.email?.split('@')[0] || 'User'}
               </p>
-              <p className="text-xs text-neutral-400 capitalize">
-                {user?.role?.replace('_', ' ') || 'Role'}
-              </p>
+              <p className="text-xs text-neutral-400 capitalize">Administrator</p>
             </div>
-            <div
-              className={clsx(
-                'w-3 h-3 rounded-full',
-                user?.isOnline ? 'bg-status-success' : 'bg-neutral-400'
-              )}
-            />
+            <div className="w-3 h-3 rounded-full bg-status-success" />
           </div>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { XIcon, FolderIcon, PaletteIcon } from 'lucide-react';
-import { useApp } from '../../contexts/AppContext';
-import { useAuth } from '../../contexts/AuthContext';
+import { useApp } from '../../contexts/AppContext.jsx';
 import clsx from 'clsx';
 
 const colorOptions = [
@@ -31,17 +30,17 @@ const iconOptions = [
 export const CreateSpaceModal = ({ onClose, onSpaceCreated }) => {
   const { createSpace, workspaceId } = useApp();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     color: '#3B82F6',
-    icon: 'folder',
+    icon: 'folder'
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     if (!formData.name.trim()) {
       alert('Please enter a space name');
       return;
@@ -49,31 +48,15 @@ export const CreateSpaceModal = ({ onClose, onSpaceCreated }) => {
 
     setIsSubmitting(true);
     try {
-      try {
-        console.log('[CreateSpaceModal] Creating space with:', {
-          workspace_id: workspaceId,
-          name: formData.name,
-          description: formData.description || null,
-          color: formData.color,
-          icon: formData.icon,
-        });
-
-        const result = await createSpace({
-          workspace_id: workspaceId,
-          name: formData.name,
-          description: formData.description || null,
-          color: formData.color,
-          icon: formData.icon,
-        });
-
-        console.log('[CreateSpaceModal] Space creation result:', result);
-
-        onSpaceCreated();
-      } catch (error) {
-        console.error('[CreateSpaceModal] Error creating space:', error);
-        alert('Failed to create space. Please try again.');
-      }
-
+      await createSpace({
+        workspace_id: workspaceId,
+        name: formData.name,
+        description: formData.description || null,
+        color: formData.color,
+        icon: formData.icon
+      });
+      
+      onSpaceCreated();
     } catch (error) {
       console.error('Error creating space:', error);
       alert('Failed to create space. Please try again.');
@@ -97,7 +80,7 @@ export const CreateSpaceModal = ({ onClose, onSpaceCreated }) => {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6 h-[70vh] overflow-auto">
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Space Name */}
           <div>
             <label className="block text-sm font-medium text-text-primary mb-2">
@@ -106,9 +89,7 @@ export const CreateSpaceModal = ({ onClose, onSpaceCreated }) => {
             <input
               type="text"
               value={formData.name}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, name: e.target.value }))
-              }
+              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               placeholder="Enter space name..."
               className="input-base w-full"
               required
@@ -122,9 +103,7 @@ export const CreateSpaceModal = ({ onClose, onSpaceCreated }) => {
             </label>
             <textarea
               value={formData.description}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, description: e.target.value }))
-              }
+              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
               placeholder="Describe this space..."
               rows={3}
               className="input-base w-full resize-none"
@@ -141,9 +120,7 @@ export const CreateSpaceModal = ({ onClose, onSpaceCreated }) => {
                 <button
                   key={color.value}
                   type="button"
-                  onClick={() =>
-                    setFormData((prev) => ({ ...prev, color: color.value }))
-                  }
+                  onClick={() => setFormData(prev => ({ ...prev, color: color.value }))}
                   className={clsx(
                     'w-10 h-10 rounded-lg border-2 transition-all',
                     formData.color === color.value
@@ -167,9 +144,7 @@ export const CreateSpaceModal = ({ onClose, onSpaceCreated }) => {
                 <button
                   key={icon.value}
                   type="button"
-                  onClick={() =>
-                    setFormData((prev) => ({ ...prev, icon: icon.value }))
-                  }
+                  onClick={() => setFormData(prev => ({ ...prev, icon: icon.value }))}
                   className={clsx(
                     'p-3 border-2 rounded-lg transition-all flex items-center justify-center',
                     formData.icon === icon.value
@@ -188,7 +163,7 @@ export const CreateSpaceModal = ({ onClose, onSpaceCreated }) => {
           <div className="border border-border-primary rounded-lg p-4">
             <h3 className="text-sm font-medium text-text-primary mb-2">Preview</h3>
             <div className="flex items-center space-x-3">
-              <div
+              <div 
                 className="w-8 h-8 rounded-lg flex items-center justify-center"
                 style={{ backgroundColor: formData.color }}
               >
@@ -199,7 +174,9 @@ export const CreateSpaceModal = ({ onClose, onSpaceCreated }) => {
                   {formData.name || 'Space Name'}
                 </div>
                 {formData.description && (
-                  <div className="text-sm text-text-tertiary">{formData.description}</div>
+                  <div className="text-sm text-text-tertiary">
+                    {formData.description}
+                  </div>
                 )}
               </div>
             </div>
@@ -208,7 +185,11 @@ export const CreateSpaceModal = ({ onClose, onSpaceCreated }) => {
 
         {/* Footer */}
         <div className="flex items-center justify-end space-x-3 p-6 border-t border-border-primary">
-          <button type="button" onClick={onClose} className="btn-ghost">
+          <button
+            type="button"
+            onClick={onClose}
+            className="btn-ghost"
+          >
             Cancel
           </button>
           <button

@@ -9,11 +9,11 @@ import {
   SearchIcon,
   SortAscIcon
 } from 'lucide-react';
-import { useApp } from '../../contexts/AppContext';
-import { ProjectCard } from './ProjectCard';
-import { ProjectList } from './ProjectList';
-import { CreateProjectModal } from './CreateProjectModal';
-import { ProjectDetailModal } from './ProjectDetailModal';
+import { useApp } from '../../contexts/AppContext.jsx';
+import { ProjectCard } from './ProjectCard.jsx';
+import { ProjectList } from './ProjectList.jsx';
+import { CreateProjectModal } from './CreateProjectModal.jsx';
+import { ProjectDetailModal } from './ProjectDetailModal.jsx';
 import clsx from 'clsx';
 
 export const ProjectsView = () => {

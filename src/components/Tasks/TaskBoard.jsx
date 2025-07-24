@@ -8,19 +8,10 @@ import {
   PaperclipIcon,
   AlertCircleIcon
 } from 'lucide-react';
-import { Task, TaskStatus } from '../../types/tasks';
 import { TaskDetailModal } from './TaskDetailModal';
 import clsx from 'clsx';
 
-interface TaskBoardProps {
-  tasks: (Task & {
-    list?: any;
-    folder?: any;
-    space?: any;
-  })[];
-}
-
-const statusColumns: { status: TaskStatus; label: string; color: string }[] = [
+const statusColumns = [
   { status: 'todo', label: 'To Do', color: 'bg-gray-100' },
   { status: 'in_progress', label: 'In Progress', color: 'bg-blue-100' },
   { status: 'internal_review', label: 'Internal Review', color: 'bg-orange-100' },
@@ -31,11 +22,11 @@ const statusColumns: { status: TaskStatus; label: string; color: string }[] = [
   { status: 'complete', label: 'Complete', color: 'bg-green-200' },
 ];
 
-export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [draggedTask, setDraggedTask] = useState<Task | null>(null);
+export const TaskBoard = ({ tasks }) => {
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [draggedTask, setDraggedTask] = useState(null);
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityColor = (priority) => {
     switch (priority) {
       case 'p1':
         return 'border-l-red-500';
@@ -50,7 +41,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
     }
   };
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date) => {
     const now = new Date();
     const diffTime = date.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -65,21 +56,21 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
     });
   };
 
-  const isOverdue = (dueDate: Date) => {
+  const isOverdue = (dueDate) => {
     return dueDate < new Date();
   };
 
-  const handleDragStart = (e: React.DragEvent, task: Task) => {
+  const handleDragStart = (e, task) => {
     setDraggedTask(task);
     e.dataTransfer.effectAllowed = 'move';
   };
 
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOver = (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
   };
 
-  const handleDrop = (e: React.DragEvent, newStatus: TaskStatus) => {
+  const handleDrop = (e, newStatus) => {
     e.preventDefault();
     if (draggedTask && draggedTask.status !== newStatus) {
       // Update task status logic would go here
@@ -88,7 +79,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
     setDraggedTask(null);
   };
 
-  const getTasksForStatus = (status: TaskStatus) => {
+  const getTasksForStatus = (status) => {
     return tasks.filter(task => task.status === status);
   };
 

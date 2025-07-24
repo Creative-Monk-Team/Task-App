@@ -1,7 +1,7 @@
 import React from 'react';
-import {
-  CalendarIcon,
-  UsersIcon,
+import { 
+  CalendarIcon, 
+  UsersIcon, 
   DollarSignIcon,
   MoreHorizontalIcon,
   FolderIcon
@@ -27,14 +27,14 @@ export const ProjectCard = ({ project, onClick }) => {
   };
 
   const getStatusText = (status) => {
-    return status.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+    return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
-      minimumFractionDigits: 0
+      minimumFractionDigits: 0,
     }).format(amount);
   };
 
@@ -50,7 +50,7 @@ export const ProjectCard = ({ project, onClick }) => {
   const spent = project.budget ? Math.floor(project.budget * (progress / 100)) : 0;
 
   return (
-    <div
+    <div 
       className="bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
       onClick={onClick}
     >
@@ -60,7 +60,7 @@ export const ProjectCard = ({ project, onClick }) => {
           <div className="flex-1">
             <div className="flex items-center space-x-2 mb-2">
               {project.space && (
-                <div
+                <div 
                   className="w-3 h-3 rounded-full"
                   style={{ backgroundColor: project.space.color }}
                 />
@@ -69,9 +69,13 @@ export const ProjectCard = ({ project, onClick }) => {
                 {project.folder?.clientName || 'Internal'}
               </span>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">{project.name}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+              {project.name}
+            </h3>
             {project.description && (
-              <p className="text-sm text-gray-600 line-clamp-2">{project.description}</p>
+              <p className="text-sm text-gray-600 line-clamp-2">
+                {project.description}
+              </p>
             )}
           </div>
           <button className="p-1 text-gray-400 hover:text-gray-600 transition-colors">
@@ -81,12 +85,10 @@ export const ProjectCard = ({ project, onClick }) => {
 
         {/* Status */}
         <div className="mt-3">
-          <span
-            className={clsx(
-              'inline-flex px-2 py-1 text-xs font-medium rounded-full',
-              getStatusColor(project.status)
-            )}
-          >
+          <span className={clsx(
+            'inline-flex px-2 py-1 text-xs font-medium rounded-full',
+            getStatusColor(project.status)
+          )}>
             {getStatusText(project.status)}
           </span>
         </div>
@@ -113,9 +115,7 @@ export const ProjectCard = ({ project, onClick }) => {
             {project.budget && (
               <div className="flex items-center text-gray-600">
                 <DollarSignIcon className="w-4 h-4 mr-1" />
-                <span>
-                  {formatCurrency(spent)} / {formatCurrency(project.budget)}
-                </span>
+                <span>{formatCurrency(spent)} / {formatCurrency(project.budget)}</span>
               </div>
             )}
             {project.dueDate && (
@@ -127,7 +127,7 @@ export const ProjectCard = ({ project, onClick }) => {
           </div>
           <div className="flex items-center text-gray-600">
             <UsersIcon className="w-4 h-4 mr-1" />
-            <span>{project.assignedUsers?.length || 0}</span>
+            <span>{Array.isArray(project.assignedUsers) ? project.assignedUsers.length : 0}</span>
           </div>
         </div>
       </div>
