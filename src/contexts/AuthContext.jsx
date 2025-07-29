@@ -31,7 +31,12 @@ const selectWithTimeout = async () => {
 
 const createUserProfile = async (userId) => {
   try {
-    selectWithTimeout();
+    const { data: existingProfile } = await supabase
+      .from('user_profiles')
+      .select('id')
+      .eq('id', userId)
+      .single();
+
     if (!existingProfile) {
       // Create user profile
       const { error } = await supabase

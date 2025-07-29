@@ -3,8 +3,8 @@ import { useAuth } from '../../contexts/AuthContext.jsx';
 import { EyeIcon, EyeOffIcon, LogIn, AlertCircle } from 'lucide-react';
 
 export const LoginForm = () => {
-  const [email, setEmail] = useState('admin@agency.com');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const { login, isLoading } = useAuth();
@@ -19,7 +19,7 @@ export const LoginForm = () => {
       console.error('Authentication failed:', error);
       if (error) {
         if (error.message.includes('Invalid login credentials')) {
-          setError('Invalid email or password. Please check your credentials.');
+          setError('Invalid email or password. Please check your credentials and ensure you have an account in this Supabase project.');
         } else {
           setError(error.message);
         }
@@ -142,7 +142,7 @@ export const LoginForm = () => {
 
           <div className="text-center">
             <p className="text-sm text-text-secondary">
-              Demo: admin@agency.com / password
+              Please use valid credentials for your Supabase project
             </p>
           </div>
         </form>
